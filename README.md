@@ -4,4 +4,4 @@ This project uses:
 - Java 11
 - Spring 5 
 - Hibernate
-- postgreSQL
+- PostgreSQL
