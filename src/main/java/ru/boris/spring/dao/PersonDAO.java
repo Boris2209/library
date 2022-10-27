@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import ru.boris.spring.controllers.PeopleController;
+import ru.boris.spring.models.Book;
 import ru.boris.spring.models.Person;
 
 import java.sql.*;
@@ -33,6 +34,11 @@ public class PersonDAO {
     public Person show(int id) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new Object[]{id},
                         new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    }
+
+    public List<Book> showListBooks(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
     }
 
 //    public Optional<Person> show(String email) {

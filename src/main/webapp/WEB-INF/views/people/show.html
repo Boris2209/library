@@ -6,7 +6,17 @@
 </head>
 <body>
 <p th:text="${person.getName() + ', ' + person.getYear()}">VALUE</p>
-<p th:text="${person.getPersonId()}">VALUE</p>
+
+<hr/>
+<a><b>Книги:</b></a>
+
+<p th:if="${listBooks.size() == 0}">Человек пока не взял ни одной книги</p>
+
+<div th:each="book : ${listBooks}">
+    <a th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+</div>
+
+<hr/>
 
 <br/>
 
