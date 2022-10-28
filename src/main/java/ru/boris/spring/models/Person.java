@@ -9,7 +9,7 @@ public class Person {
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    private String name;
+    private String fullName;
 
     @Min(value = 1900, message = "Age should be greater than 0")
     private int year;
@@ -25,12 +25,12 @@ public class Person {
         this.personId = personId;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String name) {
+        this.fullName = name;
     }
 
     public int getYear() {

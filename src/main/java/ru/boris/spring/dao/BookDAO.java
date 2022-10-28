@@ -23,8 +23,8 @@ public class BookDAO {
     }
 
     public Book show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
+        String sql = "SELECT book.book_id, person.full_name, book.name, book.author, book.year FROM Book LEFT JOIN Person ON book.person_id = person.person_id WHERE Book.book_id=?";
+        return jdbcTemplate.query(sql, new Object[]{id}, new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
     }
 
     public void save(Book book) {

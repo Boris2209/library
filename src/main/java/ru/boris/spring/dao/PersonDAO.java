@@ -47,13 +47,13 @@ public class PersonDAO {
 //    }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name, year) VALUES (?, ?)",
-                person.getName(), person.getYear());
+        jdbcTemplate.update("INSERT INTO Person(full_name, year) VALUES (?, ?)",
+                person.getFullName(), person.getYear());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE Person SET name=?, year=? WHERE person_id=?",
-                updatedPerson.getName(),
+        jdbcTemplate.update("UPDATE Person SET full_name=?, year=? WHERE person_id=?",
+                updatedPerson.getFullName(),
                 updatedPerson.getYear(),
                 id);
     }
