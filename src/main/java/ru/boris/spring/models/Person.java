@@ -17,6 +17,11 @@ public class Person {
     public Person() {
     }
 
+    public Person(String fullName, int year) {
+        this.fullName = fullName;
+        this.year = year;
+    }
+
     public int getPersonId() {
         return personId;
     }

@@ -5,22 +5,7 @@ import javax.validation.constraints.Size;
 
 public class Book {
 
-
-    public Book(int bookId, String fullName, String name, String author, int year) {
-        this.fullName = fullName;
-        this.bookId = bookId;
-        this.name = name;
-        this.author = author;
-        this.year = year;
-    }
-
-    public Book() {
-    }
-
-
     private int bookId;
-
-    private String fullName;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 200)
@@ -31,12 +16,13 @@ public class Book {
 
     private int year;
 
-    public String getFullName() {
-        return fullName;
+    public Book() {
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public Book(String name, String author, int year) {
+        this.name = name;
+        this.author = author;
+        this.year = year;
     }
 
     public int getBookId() {
@@ -70,5 +56,4 @@ public class Book {
     public void setYear(int year) {
         this.year = year;
     }
-
 }

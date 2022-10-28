@@ -6,17 +6,17 @@
 </head>
 <body>
 
+
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
     <label for="fullName">Введите ФИО: </label>
     <input type="text" th:field="*{fullName}" id="fullName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name error</div>
+    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Full Name Error</div>
     <br/>
-    <label for="year">Введите год рождения: </label>
-    <input type="text" th:field="*{year}" id="year"/>
-    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Name error</div>
+    <label for="yearOfBirth">Введите год рождения: </label>
+    <input type="text" th:field="*{year}" id="yearOfBirth"/>
+    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year of birth Error</div>
     <br/>
-    <input type="submit" value="Создать!"/>
+    <input type="submit" value="Create!"/>
 </form>
-
 </body>
 </html>

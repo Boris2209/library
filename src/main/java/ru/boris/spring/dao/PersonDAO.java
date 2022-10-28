@@ -36,16 +36,6 @@ public class PersonDAO {
                         new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
-    public List<Book> showListBooks(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class));
-    }
-
-//    public Optional<Person> show(String email) {
-//        return jdbcTemplate.query("SELECT * FROM Person WHERE email=?",
-//                new Object[] {email}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
-//    }
-
     public void save(Person person) {
         jdbcTemplate.update("INSERT INTO Person(full_name, year) VALUES (?, ?)",
                 person.getFullName(), person.getYear());
@@ -60,6 +50,18 @@ public class PersonDAO {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", id);
+    }
+
+    // Для валидации уникальности ФИО
+    public Optional<Person> getPersonByFullName(String fullName) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?", new Object[]{fullName},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
+
+    // Здесь Join не нужен. И так уже получили человека с помощью отдельного метода
+    public List<Book> getBooksByPersonId(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
     }
 
 }
