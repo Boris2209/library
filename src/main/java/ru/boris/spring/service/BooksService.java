@@ -34,6 +34,7 @@ public class BooksService {
         foundBook.ifPresent(this::toOverdue);
         return foundBook.orElse(null);
     }
+
     public void toOverdue(Book book) {
         long tenDaysInMilliseconds = 864000000;
         Date createdDate = book.getCreateDate();
@@ -61,4 +62,21 @@ public class BooksService {
         booksRepositories.deleteById(id);
     }
 
+    @Transactional
+    public void release(int id) {
+        Optional<Book> foundBook = booksRepositories.findById(id);
+        if (foundBook.isPresent()) {
+            foundBook.get().setOwner(null);
+            booksRepositories.save(foundBook.get());
+        }
+    }
+
+    @Transactional
+    public void assign(int id, Person selectedPerson) {
+        Optional<Book> foundBook = booksRepositories.findById(id);
+        if (foundBook.isPresent()) {
+            foundBook.get().setOwner(selectedPerson);
+            booksRepositories.save(foundBook.get());
+        }
+    }
 }
