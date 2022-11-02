@@ -1,28 +1,38 @@
 package ru.boris.spring.models;
 
+import org.hibernate.validator.constraints.CodePointLength;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
+@Entity
+@Table(name = "Book")
 public class Book {
 
+    @Id
+    @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookId;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 200)
+    @Column(name = "name")
     private String name;
 
     @Size(max = 100)
+    @Column(name = "author")
     private String author;
 
+    @Column(name = "year")
     private int year;
 
-    public Book() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person owner;
 
-    public Book(String name, String author, int year) {
-        this.name = name;
-        this.author = author;
-        this.year = year;
+    public Book() {
     }
 
     public int getBookId() {
@@ -55,5 +65,26 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return bookId == book.bookId && year == book.year && Objects.equals(name, book.name) && Objects.equals(author, book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookId, name, author, year);
     }
 }
