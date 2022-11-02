@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.boris.spring.models.Person;
-import ru.boris.spring.repositories.PeopleRepositories;
+import ru.boris.spring.repositories.BooksRepositories;
 import ru.boris.spring.service.PeopleService;
 import ru.boris.spring.util.PersonValidator;
 
@@ -17,11 +17,14 @@ import javax.validation.Valid;
 public class PeopleController {
 
     private final PeopleService peopleService;
+
+    private final BooksRepositories booksRepositories;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PeopleService peopleService, PersonValidator personValidator) {
+    public PeopleController(PeopleService peopleService, BooksRepositories booksRepositories, PersonValidator personValidator) {
         this.peopleService = peopleService;
+        this.booksRepositories = booksRepositories;
         this.personValidator = personValidator;
     }
 
@@ -34,7 +37,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findOne(id));
-        //model.addAttribute("books", personDAO.getBooksByPersonId(id));
+        Person person = peopleService.findOne(id);
         return "people/show";
     }
 

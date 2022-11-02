@@ -1,11 +1,11 @@
 package ru.boris.spring.models;
 
-import org.hibernate.validator.constraints.CodePointLength;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Book")
@@ -31,6 +31,14 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     private Person owner;
+
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+
+    @Transient
+    private boolean overdue;
 
     public Book() {
     }
@@ -73,6 +81,23 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+
+    public boolean isOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override

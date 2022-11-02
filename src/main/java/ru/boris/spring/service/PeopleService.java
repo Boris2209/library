@@ -3,6 +3,7 @@ package ru.boris.spring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.boris.spring.models.Book;
 import ru.boris.spring.models.Person;
 import ru.boris.spring.repositories.PeopleRepositories;
 
@@ -13,11 +14,14 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PeopleService {
 
-    private PeopleRepositories peopleRepositories;
+    private final PeopleRepositories peopleRepositories;
+
+    private final BooksService booksService;
 
     @Autowired
-    public PeopleService(PeopleRepositories peopleRepositories) {
+    public PeopleService(PeopleRepositories peopleRepositories, BooksService booksService) {
         this.peopleRepositories = peopleRepositories;
+        this.booksService = booksService;
     }
 
     public List<Person> findAll() {
@@ -26,6 +30,11 @@ public class PeopleService {
 
     public Person findOne(int id) {
         Optional<Person> foundPerson = peopleRepositories.findById(id);
+        if (foundPerson.isPresent()){
+            for (Book book : foundPerson.get().getBooks()){
+                booksService.toOverdue(book);
+            }
+        }
         return foundPerson.orElse(null);
     }
 
