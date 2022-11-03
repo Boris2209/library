@@ -1,12 +1,15 @@
 package ru.boris.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.boris.spring.models.Book;
 import ru.boris.spring.models.Person;
 import ru.boris.spring.repositories.BooksRepositories;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +29,32 @@ public class BooksService {
         List<Book> books = booksRepositories.findAll();
         for (Book book : books)
             toOverdue(book);
+        return books;
+    }
+
+    public List<Book> findAll(Integer page, Integer booksPerPage, Boolean sortByYear) {
+        List<Book> books;
+
+        if (page == null && booksPerPage == null) {
+            if (sortByYear != null && sortByYear == true){
+                books = booksRepositories.findAll(Sort.by("year"));
+            }
+            else {
+                books = booksRepositories.findAll();
+            }
+        }
+        else {
+            if (sortByYear != null && sortByYear == true) {
+                books = booksRepositories.findAll(PageRequest.of(page, booksPerPage, Sort.by("year"))).getContent();
+            }
+            else {
+                books = booksRepositories.findAll(PageRequest.of(page, booksPerPage)).getContent();
+            }
+        }
+
+        for (Book book : books) {
+            toOverdue(book);
+        }
         return books;
     }
 
@@ -78,5 +107,9 @@ public class BooksService {
             foundBook.get().setOwner(selectedPerson);
             booksRepositories.save(foundBook.get());
         }
+    }
+
+    public List<Book> search(String search) {
+        return booksRepositories.findByNameStartingWith(search);
     }
 }
