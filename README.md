@@ -1,7 +1,8 @@
 This application keeps electronic records of books and library visitors.
 
 This project uses:
-- Java 
-- Spring 5 
+- Java 11
+- Spring Framework (Core, MVC, JDBC, Data JPA)
 - Thymeleaf
 - PostgreSQL
+- Tomcat
